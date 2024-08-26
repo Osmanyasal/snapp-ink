@@ -66,6 +66,9 @@ endif
 
 OBJECTS := \
 	$(OBJDIR)/grayscale.o \
+	$(OBJDIR)/mix.o \
+	$(OBJDIR)/popup.o \
+	$(OBJDIR)/sepia.o \
 	$(OBJDIR)/watercolor.o \
 	$(OBJDIR)/main.o \
 
@@ -127,6 +130,15 @@ $(OBJECTS): | $(OBJDIR)
 endif
 
 $(OBJDIR)/grayscale.o: ../../src/filters/color/grayscale.cc
+	@echo $(notdir $<)
+	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+$(OBJDIR)/mix.o: ../../src/filters/color/mix.cc
+	@echo $(notdir $<)
+	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+$(OBJDIR)/popup.o: ../../src/filters/color/popup.cc
+	@echo $(notdir $<)
+	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+$(OBJDIR)/sepia.o: ../../src/filters/color/sepia.cc
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/watercolor.o: ../../src/filters/color/watercolor.cc

@@ -59,6 +59,16 @@
         "cinttypes": "cpp",
         "typeinfo": "cpp",
         "semaphore": "cpp",
-        "__nullptr": "cpp"
+        "__nullptr": "cpp",
+        "__locale": "cpp",
+        "charconv": "cpp",
+        "codecvt": "cpp",
+        "complex": "cpp",
+        "set": "cpp",
+        "fstream": "cpp",
+        "iomanip": "cpp",
+        "sstream": "cpp",
+        "typeindex": "cpp",
+        "variant": "cpp"
     }
 }

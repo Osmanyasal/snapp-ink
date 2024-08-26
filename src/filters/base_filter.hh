@@ -2,8 +2,7 @@
 #include <iostream>
 #include <memory>
 #include <omp.h>
-#include <opencv2/imgproc/imgproc.hpp>
-
+#include <opencv2/opencv.hpp>
 namespace snapp::filters
 {
     class BaseFilter
