@@ -16,6 +16,6 @@ namespace snapp::filters::color
         cv::Mat stain_img = cv::imread(stain_name);
 
         cv::resize(stain_img, stain_img, img.size());
-        cv::addWeighted(img, 0.6, stain_img, .4, 0, img);
+        cv::addWeighted(img, 0.75, stain_img, .25, 0, img);
     }
 }

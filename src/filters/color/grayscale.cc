@@ -9,6 +9,7 @@ namespace snapp::filters::color
 
     void GrayScale::apply(cv::Mat &img, void *user_data) const
     {
-        cv::cvtColor(img, img, cv::COLOR_BGR2GRAY);
+        cv::cvtColor(img, img, cv::COLOR_BGRA2GRAY);
+        cv::cvtColor(img, img, cv::COLOR_GRAY2BGR);
     }
 }
