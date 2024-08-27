@@ -21,8 +21,8 @@ int main(int argc, char **argv)
     // std::pair<std::string, std::string> src_dst{"../ss.jpg", "../2"};
     // snapp::filters::color::Colorisation::get_filter().apply(mat, (void*)&src_dst);
 
-    std::pair<std::string, std::string> src_dst{"../tt.jpg", "../tt_augmented.jpg"};
-    snapp::filters::ai::FaceAugmentation::get_filter().apply(mat, (void*)&src_dst);
+    std::pair<std::string, std::string> src_dst{"../tt.jpg", "../ss.jpg"};
+    snapp::filters::ai::FaceSwap::get_filter().apply(mat, (void*)&src_dst);
 
     // cv::imwrite(std::string{"../"} + filter_name, mat);
     return 0;
