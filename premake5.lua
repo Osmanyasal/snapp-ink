@@ -27,7 +27,7 @@ workspace "HelloWorld"
     
 
     project "snapp_ink"
-        kind "consoleapp" --SharedLib ConsoleApp StaticLib
+        kind "StaticLib" --SharedLib ConsoleApp StaticLib
         language "C++"
         targetdir "bin/%{cfg.buildcfg}"  
         location(buildDir)
