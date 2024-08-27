@@ -66,9 +66,12 @@ endif
 
 OBJECTS := \
 	$(OBJDIR)/face_augmentation.o \
+	$(OBJDIR)/face_swap.o \
+	$(OBJDIR)/colorisation.o \
 	$(OBJDIR)/grayscale.o \
 	$(OBJDIR)/mix.o \
 	$(OBJDIR)/popup.o \
+	$(OBJDIR)/rembg.o \
 	$(OBJDIR)/sepia.o \
 	$(OBJDIR)/sketch.o \
 	$(OBJDIR)/main.o \
@@ -133,6 +136,12 @@ endif
 $(OBJDIR)/face_augmentation.o: ../../src/filters/ai/face_augmentation.cc
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+$(OBJDIR)/face_swap.o: ../../src/filters/ai/face_swap.cc
+	@echo $(notdir $<)
+	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+$(OBJDIR)/colorisation.o: ../../src/filters/color/colorisation.cc
+	@echo $(notdir $<)
+	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/grayscale.o: ../../src/filters/color/grayscale.cc
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
@@ -140,6 +149,9 @@ $(OBJDIR)/mix.o: ../../src/filters/color/mix.cc
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/popup.o: ../../src/filters/color/popup.cc
+	@echo $(notdir $<)
+	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+$(OBJDIR)/rembg.o: ../../src/filters/color/rembg.cc
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/sepia.o: ../../src/filters/color/sepia.cc
