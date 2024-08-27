@@ -65,11 +65,12 @@ all: prebuild prelink $(TARGET)
 endif
 
 OBJECTS := \
+	$(OBJDIR)/face_augmentation.o \
 	$(OBJDIR)/grayscale.o \
 	$(OBJDIR)/mix.o \
 	$(OBJDIR)/popup.o \
 	$(OBJDIR)/sepia.o \
-	$(OBJDIR)/watercolor.o \
+	$(OBJDIR)/sketch.o \
 	$(OBJDIR)/main.o \
 
 RESOURCES := \
@@ -129,6 +130,9 @@ else
 $(OBJECTS): | $(OBJDIR)
 endif
 
+$(OBJDIR)/face_augmentation.o: ../../src/filters/ai/face_augmentation.cc
+	@echo $(notdir $<)
+	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/grayscale.o: ../../src/filters/color/grayscale.cc
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
@@ -141,7 +145,7 @@ $(OBJDIR)/popup.o: ../../src/filters/color/popup.cc
 $(OBJDIR)/sepia.o: ../../src/filters/color/sepia.cc
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
-$(OBJDIR)/watercolor.o: ../../src/filters/color/watercolor.cc
+$(OBJDIR)/sketch.o: ../../src/filters/color/sketch.cc
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/main.o: ../../src/main.cc

@@ -1,14 +1,14 @@
-#include "watarcolor.hh"
+#include "sketch.hh"
 namespace snapp::filters::color
 {
 
-    BaseFilter &WaterColor::get_filter()
+    BaseFilter &Sketch::get_filter()
     {
-        static WaterColor watercolor{};
-        return watercolor;
+        static Sketch Sketch{};
+        return Sketch;
     }
 
-    void WaterColor::apply(cv::Mat &img, void *user_data) const
+    void Sketch::apply(cv::Mat &img, void *user_data) const
     {
         int num_of_locations = (long)user_data;
         // Reshape the image to a 2D array of pixels
