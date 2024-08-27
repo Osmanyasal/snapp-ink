@@ -1,3 +1,7 @@
+#remove weights and models of roop
+lib/roop/gfpgan
+lib/roop/models
+
 # Prerequisites
 *.d
 
