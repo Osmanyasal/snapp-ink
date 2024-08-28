@@ -1,6 +1,8 @@
 #include "grayscale.hh"
 namespace snapp::filters::color
 {
+    const std::string GrayScale::NAME = "grayscale";
+
     BaseFilter &GrayScale::get_filter()
     {
         static GrayScale GrayScale{};

@@ -2,6 +2,7 @@
 
 namespace snapp::filters::color
 {
+    const std::string Sepia::NAME = "sepia";
     BaseFilter &Sepia::get_filter()
     {
         static Sepia Sepia{};

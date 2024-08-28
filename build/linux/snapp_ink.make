@@ -13,19 +13,19 @@ endif
 ifeq ($(config),debug)
   RESCOMP = windres
   TARGETDIR = ../../bin/debug
-  TARGET = $(TARGETDIR)/libsnapp_ink.a
+  TARGET = $(TARGETDIR)/snapp_ink
   OBJDIR = obj/debug
   DEFINES += -DDEBUG
-  INCLUDES += -I/usr/include/opencv4 -I../../src/filters -I../../src/filters/color -I../../src/filters/ai
+  INCLUDES += -I/usr/include/opencv4 -I../../src/filters -I../../src/filters/color -I../../src/filters/ai -I../../lib/crow/include
   FORCE_INCLUDE +=
   ALL_CPPFLAGS += $(CPPFLAGS) -MD -MP $(DEFINES) $(INCLUDES)
-  ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -g -O2 -Wall -fopenmp
-  ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -g -O2 -Wall -fopenmp
+  ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -g -O2 -std=c++17 -Wall -fopenmp -DCROW_ENABLE_SSL -DCROW_ENABLE_COMPRESSION
+  ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -g -O2 -std=c++17 -Wall -fopenmp -DCROW_ENABLE_SSL -DCROW_ENABLE_COMPRESSION
   ALL_RESFLAGS += $(RESFLAGS) $(DEFINES) $(INCLUDES)
-  LIBS += -lpthread -lopencv_stitching  -lopencv_alphamat  -lopencv_aruco  -lopencv_barcode  -lopencv_bgsegm  -lopencv_bioinspired  -lopencv_ccalib  -lopencv_dnn_objdetect  -lopencv_dnn_superres  -lopencv_dpm  -lopencv_face  -lopencv_freetype  -lopencv_fuzzy  -lopencv_hdf  -lopencv_hfs  -lopencv_img_hash  -lopencv_intensity_transform  -lopencv_line_descriptor  -lopencv_mcc  -lopencv_quality  -lopencv_rapid  -lopencv_reg  -lopencv_rgbd  -lopencv_saliency  -lopencv_shape  -lopencv_stereo  -lopencv_structured_light  -lopencv_phase_unwrapping  -lopencv_superres  -lopencv_optflow  -lopencv_surface_matching  -lopencv_tracking  -lopencv_highgui  -lopencv_datasets  -lopencv_text  -lopencv_plot  -lopencv_ml  -lopencv_videostab  -lopencv_videoio  -lopencv_viz  -lopencv_wechat_qrcode  -lopencv_ximgproc  -lopencv_video  -lopencv_xobjdetect  -lopencv_objdetect  -lopencv_calib3d  -lopencv_imgcodecs  -lopencv_features2d  -lopencv_dnn  -lopencv_flann  -lopencv_xphoto  -lopencv_photo  -lopencv_imgproc  -lopencv_core
+  LIBS += -lssl -lcrypto -lz -lpthread -lopencv_stitching  -lopencv_alphamat  -lopencv_aruco  -lopencv_barcode  -lopencv_bgsegm  -lopencv_bioinspired  -lopencv_ccalib  -lopencv_dnn_objdetect  -lopencv_dnn_superres  -lopencv_dpm  -lopencv_face  -lopencv_freetype  -lopencv_fuzzy  -lopencv_hdf  -lopencv_hfs  -lopencv_img_hash  -lopencv_intensity_transform  -lopencv_line_descriptor  -lopencv_mcc  -lopencv_quality  -lopencv_rapid  -lopencv_reg  -lopencv_rgbd  -lopencv_saliency  -lopencv_shape  -lopencv_stereo  -lopencv_structured_light  -lopencv_phase_unwrapping  -lopencv_superres  -lopencv_optflow  -lopencv_surface_matching  -lopencv_tracking  -lopencv_highgui  -lopencv_datasets  -lopencv_text  -lopencv_plot  -lopencv_ml  -lopencv_videostab  -lopencv_videoio  -lopencv_viz  -lopencv_wechat_qrcode  -lopencv_ximgproc  -lopencv_video  -lopencv_xobjdetect  -lopencv_objdetect  -lopencv_calib3d  -lopencv_imgcodecs  -lopencv_features2d  -lopencv_dnn  -lopencv_flann  -lopencv_xphoto  -lopencv_photo  -lopencv_imgproc  -lopencv_core
   LDDEPS +=
-  ALL_LDFLAGS += $(LDFLAGS) -fopenmp
-  LINKCMD = $(AR) -rcs "$@" $(OBJECTS)
+  ALL_LDFLAGS += $(LDFLAGS) -fopenmp -lssl -lcrypto -lz
+  LINKCMD = $(CXX) -o "$@" $(OBJECTS) $(RESOURCES) $(ALL_LDFLAGS) $(LIBS)
   define PREBUILDCMDS
   endef
   define PRELINKCMDS
@@ -40,19 +40,19 @@ endif
 ifeq ($(config),release)
   RESCOMP = windres
   TARGETDIR = ../../bin/release
-  TARGET = $(TARGETDIR)/libsnapp_ink.a
+  TARGET = $(TARGETDIR)/snapp_ink
   OBJDIR = obj/release
   DEFINES += -DNDEBUG
-  INCLUDES += -I/usr/include/opencv4 -I../../src/filters -I../../src/filters/color -I../../src/filters/ai
+  INCLUDES += -I/usr/include/opencv4 -I../../src/filters -I../../src/filters/color -I../../src/filters/ai -I../../lib/crow/include
   FORCE_INCLUDE +=
   ALL_CPPFLAGS += $(CPPFLAGS) -MD -MP $(DEFINES) $(INCLUDES)
-  ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -O2 -O2 -Wall -fopenmp
-  ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -O2 -O2 -Wall -fopenmp
+  ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -O2 -O2 -std=c++17 -Wall -fopenmp -DCROW_ENABLE_SSL -DCROW_ENABLE_COMPRESSION
+  ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -O2 -O2 -std=c++17 -Wall -fopenmp -DCROW_ENABLE_SSL -DCROW_ENABLE_COMPRESSION
   ALL_RESFLAGS += $(RESFLAGS) $(DEFINES) $(INCLUDES)
-  LIBS += -lpthread -lopencv_stitching  -lopencv_alphamat  -lopencv_aruco  -lopencv_barcode  -lopencv_bgsegm  -lopencv_bioinspired  -lopencv_ccalib  -lopencv_dnn_objdetect  -lopencv_dnn_superres  -lopencv_dpm  -lopencv_face  -lopencv_freetype  -lopencv_fuzzy  -lopencv_hdf  -lopencv_hfs  -lopencv_img_hash  -lopencv_intensity_transform  -lopencv_line_descriptor  -lopencv_mcc  -lopencv_quality  -lopencv_rapid  -lopencv_reg  -lopencv_rgbd  -lopencv_saliency  -lopencv_shape  -lopencv_stereo  -lopencv_structured_light  -lopencv_phase_unwrapping  -lopencv_superres  -lopencv_optflow  -lopencv_surface_matching  -lopencv_tracking  -lopencv_highgui  -lopencv_datasets  -lopencv_text  -lopencv_plot  -lopencv_ml  -lopencv_videostab  -lopencv_videoio  -lopencv_viz  -lopencv_wechat_qrcode  -lopencv_ximgproc  -lopencv_video  -lopencv_xobjdetect  -lopencv_objdetect  -lopencv_calib3d  -lopencv_imgcodecs  -lopencv_features2d  -lopencv_dnn  -lopencv_flann  -lopencv_xphoto  -lopencv_photo  -lopencv_imgproc  -lopencv_core
+  LIBS += -lssl -lcrypto -lz -lpthread -lopencv_stitching  -lopencv_alphamat  -lopencv_aruco  -lopencv_barcode  -lopencv_bgsegm  -lopencv_bioinspired  -lopencv_ccalib  -lopencv_dnn_objdetect  -lopencv_dnn_superres  -lopencv_dpm  -lopencv_face  -lopencv_freetype  -lopencv_fuzzy  -lopencv_hdf  -lopencv_hfs  -lopencv_img_hash  -lopencv_intensity_transform  -lopencv_line_descriptor  -lopencv_mcc  -lopencv_quality  -lopencv_rapid  -lopencv_reg  -lopencv_rgbd  -lopencv_saliency  -lopencv_shape  -lopencv_stereo  -lopencv_structured_light  -lopencv_phase_unwrapping  -lopencv_superres  -lopencv_optflow  -lopencv_surface_matching  -lopencv_tracking  -lopencv_highgui  -lopencv_datasets  -lopencv_text  -lopencv_plot  -lopencv_ml  -lopencv_videostab  -lopencv_videoio  -lopencv_viz  -lopencv_wechat_qrcode  -lopencv_ximgproc  -lopencv_video  -lopencv_xobjdetect  -lopencv_objdetect  -lopencv_calib3d  -lopencv_imgcodecs  -lopencv_features2d  -lopencv_dnn  -lopencv_flann  -lopencv_xphoto  -lopencv_photo  -lopencv_imgproc  -lopencv_core
   LDDEPS +=
-  ALL_LDFLAGS += $(LDFLAGS) -s -fopenmp
-  LINKCMD = $(AR) -rcs "$@" $(OBJECTS)
+  ALL_LDFLAGS += $(LDFLAGS) -s -fopenmp -lssl -lcrypto -lz
+  LINKCMD = $(CXX) -o "$@" $(OBJECTS) $(RESOURCES) $(ALL_LDFLAGS) $(LIBS)
   define PREBUILDCMDS
   endef
   define PRELINKCMDS

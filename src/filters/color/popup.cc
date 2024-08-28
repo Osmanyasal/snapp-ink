@@ -2,6 +2,8 @@
 
 namespace snapp::filters::color
 {
+    const std::string PopUp::NAME = "popup";
+
     BaseFilter &PopUp::get_filter()
     {
         static PopUp PopUp{};
@@ -20,7 +22,6 @@ namespace snapp::filters::color
         // Set the bounds for the red hue
         cv::Scalar lower_red(120, 50, 50);
         cv::Scalar upper_red(180, 255, 255);
-
 
         // Create a mask using the bounds set
         cv::Mat mask;

@@ -6,18 +6,21 @@ namespace snapp::filters::color
 {
     class GrayScale : public BaseFilter
     {
-    public:
-        static BaseFilter &get_filter();
-        virtual void apply(cv::Mat &img, void *user_data) const override;
+        public:
+            static const std::string NAME;
 
-        // Delete copy, move constructor and assignment operator
-        GrayScale(const GrayScale &) = delete;
-        GrayScale(GrayScale &&) = delete;
-        GrayScale &operator=(const GrayScale &) = delete;
+        public:
+            static BaseFilter &get_filter();
+            virtual void apply(cv::Mat &img, void *user_data) const override;
 
-    private:
-        GrayScale() { std::cout << "ctor GrayScale()\n"; };
-        ~GrayScale() = default;
+            // Delete copy, move constructor and assignment operator
+            GrayScale(const GrayScale &) = delete;
+            GrayScale(GrayScale &&) = delete;
+            GrayScale &operator=(const GrayScale &) = delete;
+
+        private:
+            GrayScale() { std::cout << "ctor GrayScale()\n"; };
+            ~GrayScale() = default;
     };
 
 } // namespace snapp::filters::color

@@ -2,6 +2,7 @@
 
 namespace snapp::filters::ai
 {
+    const std::string FaceSwap::NAME = "face_swap";
     BaseFilter &FaceSwap::get_filter()
     {
         static FaceSwap FaceSwap{};
@@ -17,7 +18,7 @@ namespace snapp::filters::ai
         std::string target{src_dst->second.substr(0, src_dst->second.find_last_of('.'))};
         target += "_processed" + src_dst->second.substr(src_dst->second.find_last_of('.'));
 
-        command += " -s " + src_dst->first + " -t " + src_dst->second + " -o " + target +" --frame-processor face_swapper";
+        command += " -s " + src_dst->first + " -t " + src_dst->second + " -o " + target + " --frame-processor face_swapper";
 
         auto result = std::system(command.c_str());
         if (result == 0)

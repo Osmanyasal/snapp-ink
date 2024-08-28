@@ -6,18 +6,21 @@ namespace snapp::filters::color
 {
     class Sketch : public BaseFilter
     {
-    public:
-        static BaseFilter &get_filter();
-        virtual void apply(cv::Mat &img, void *user_data) const override;
+        public:
+            static const std::string NAME;
 
-        // Delete copy, move constructor and assignment operator
-        Sketch(const Sketch &) = delete;
-        Sketch(Sketch &&) = delete;
-        Sketch &operator=(const Sketch &) = delete;
+        public:
+            static BaseFilter &get_filter();
+            virtual void apply(cv::Mat &img, void *user_data) const override;
 
-    private:
-        Sketch() { std::cout << "ctor Sketch()\n"; };
-        ~Sketch() = default;
+            // Delete copy, move constructor and assignment operator
+            Sketch(const Sketch &) = delete;
+            Sketch(Sketch &&) = delete;
+            Sketch &operator=(const Sketch &) = delete;
+
+        private:
+            Sketch() { std::cout << "ctor Sketch()\n"; };
+            ~Sketch() = default;
     };
 
 } // namespace snapp::filters::color

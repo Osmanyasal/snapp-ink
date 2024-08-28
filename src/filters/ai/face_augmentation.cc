@@ -2,6 +2,8 @@
 
 namespace snapp::filters::ai
 {
+    const std::string FaceAugmentation::NAME = "face_autmentation";
+    
     BaseFilter &FaceAugmentation::get_filter()
     {
         static FaceAugmentation FaceAugmentation{};

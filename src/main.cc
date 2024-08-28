@@ -1,29 +1,212 @@
 #include <iostream>
 #include "snapp_ink.hh"
 
+#define CROW_DISABLE_STATIC_DIR
+#include "crow.h"
+
 int main(int argc, char **argv)
 {
 
-    // std::string filter_name = "sketch32.jpg";
-    cv::Mat mat = cv::imread("../ss.jpg");
-    
-    // snapp::filters::color::Sketch::get_filter().apply(mat, (void *)32);
-    // snapp::filters::color::Sketch::get_filter().apply(mat, (void *)3);
-    // snapp::filters::color::PopUp::get_filter().apply(mat);
-    // snapp::filters::color::Sepia::get_filter().apply(mat);
-    // snapp::filters::color::Mix::get_filter().apply(mat, (void *)(std::string{"./assets/old_filters/"} + filter_name).c_str());
-    // snapp::filters::color::Mix::get_filter().apply(mat, (void *)"./assets/old_filters/old4n.jpg");
-    // snapp::filters::color::GrayScale::get_filter().apply(mat);
+    crow::SimpleApp app;
 
-    // std::pair<std::string, std::string> src_dst{"../ss.jpg", "../ss_removedbg.jpg"};
-    // snapp::filters::color::RemBG::get_filter().apply(mat, (void*)&src_dst);
+    CROW_ROUTE(app, "/")
+    ([]()
+     { return "Snapp-ink[STATUS]: Is Running..."; });
 
-    // std::pair<std::string, std::string> src_dst{"../ss.jpg", "../2"};
-    // snapp::filters::color::Colorisation::get_filter().apply(mat, (void*)&src_dst);
+    CROW_ROUTE(app, "/register").methods(crow::HTTPMethod::POST)([](const crow::request &req)
+                                                                 { 
+        auto id = req.url_params.get("id");
+        if (id == nullptr)
+            return crow::response("id not found!");
 
-    // std::pair<std::string, std::string> src_dst{"../tt.jpg", "../ss.jpg"};
-    // snapp::filters::ai::FaceSwap::get_filter().apply(mat, (void*)&src_dst);
+        std::string file_path = std::string("./workplace/") + std::string(id) + "_source.jpg";
 
-    // cv::imwrite(std::string{"../"} + filter_name, mat);
+        std::ofstream ofs(file_path, std::ios::binary);
+        if (!ofs)
+            return crow::response(500, "Failed to open file for writing");
+
+        ofs.write(req.body.data(), req.body.size());
+        ofs.close();
+
+        return crow::response(200); });
+
+    CROW_ROUTE(app, "/register/target").methods(crow::HTTPMethod::POST)([](const crow::request &req)
+                                                                 { 
+        auto id = req.url_params.get("id");
+        if (id == nullptr)
+            return crow::response("id not found!");
+
+        std::string file_path = std::string("./workplace/") + std::string(id) + "_target.jpg";
+
+        std::ofstream ofs(file_path, std::ios::binary);
+        if (!ofs)
+            return crow::response(500, "Failed to open file for writing");
+
+        ofs.write(req.body.data(), req.body.size());
+        ofs.close();
+
+        return crow::response(200); });
+
+    CROW_ROUTE(app, "/filters/grayscale")
+    ([](const crow::request &req, crow::response &res)
+     {
+        auto id = req.url_params.get("id");
+        if (id == nullptr)
+            res.write("id not found!");
+        else
+        {
+            std::string file_path = std::string("./workplace/") + std::string(id) + "_source.jpg";
+            auto img = cv::imread(file_path);
+            snapp::filters::color::GrayScale::get_filter().apply(img);
+            cv::imwrite(file_path, img);
+            res.set_static_file_info_unsafe(file_path);
+        }
+        res.end(); });
+
+    CROW_ROUTE(app, "/filters/popup/<string>")
+    ([](const crow::request &req, crow::response &res, const std::string &filter_name)
+     {
+        auto id = req.url_params.get("id");
+        if (id == nullptr)
+            res.write("id not found!");
+        else
+        {
+            std::string file_path = std::string("./workplace/") + std::string(id) + "_source.jpg";
+
+            auto img = cv::imread(file_path);
+            snapp::filters::color::PopUp::get_filter().apply(img);
+            cv::imwrite(file_path, img);
+
+            res.set_static_file_info_unsafe(file_path);
+        }
+        res.end(); });
+
+    CROW_ROUTE(app, "/filters/rembg")
+    ([](const crow::request &req, crow::response &res)
+     {
+        auto id = req.url_params.get("id");
+        if (id == nullptr)
+            res.write("id not found!");
+        else
+        {
+            std::string file_path = std::string("./workplace/") + std::string(id) + "_source.jpg";
+
+            cv::Mat dummy;
+            std::string dummy_path = std::string("./workplace/") + std::string(id) + "_dummy.jpg";
+            std::pair<std::string, std::string> src_dst = {file_path, dummy_path};
+            snapp::filters::color::RemBG::get_filter().apply(dummy, (void *)&src_dst);
+            std::string command = std::string{"mv "} + dummy_path + " " + file_path;
+            std::system(command.c_str());
+
+            res.set_static_file_info_unsafe(file_path);
+        }
+        res.end(); });
+
+    CROW_ROUTE(app, "/filters/face-autmentation")
+    ([](const crow::request &req, crow::response &res)
+     {
+        auto id = req.url_params.get("id");
+        if (id == nullptr)
+            res.write("id not found!");
+        else
+        {
+            std::string file_path = std::string("./workplace/") + std::string(id) + "_source.jpg";
+
+            cv::Mat dummy;
+            std::string dummy_path = std::string("./workplace/") + std::string(id) + "_dummy.jpg";
+            std::pair<std::string, std::string> src_dst = {file_path, dummy_path};
+            snapp::filters::ai::FaceAugmentation::get_filter().apply(dummy, (void *)&src_dst);
+            std::string command = std::string{"mv "} + dummy_path + " " + file_path;
+            std::system(command.c_str());
+
+            res.set_static_file_info_unsafe(file_path);
+        }
+        res.end(); });
+
+    CROW_ROUTE(app, "/filters/sepia")
+    ([](const crow::request &req, crow::response &res)
+     {
+        auto id = req.url_params.get("id");
+        if (id == nullptr)
+            res.write("id not found!");
+        else
+        {
+            std::string file_path = std::string("./workplace/") + std::string(id) + "_source.jpg";
+
+            auto img = cv::imread(file_path);
+            snapp::filters::color::Sepia::get_filter().apply(img);
+            cv::imwrite(file_path, img);
+
+            res.set_static_file_info_unsafe(file_path);
+        }
+        res.end(); });
+
+    CROW_ROUTE(app, "/filters/face-swap")
+    ([](const crow::request &req, crow::response &res)
+     {
+        auto id = req.url_params.get("id");
+        if (id == nullptr)
+            res.write("id not found!");
+        else
+        {
+            std::string file_path = std::string("./workplace/") + std::string(id) + "_source.jpg";
+
+            //TODO: add code here!
+           
+            res.set_static_file_info_unsafe(file_path);
+        }
+        res.end(); });
+
+    CROW_ROUTE(app, "/filters/colorisation/<string>")
+    ([](const crow::request &req, crow::response &res, const std::string &filter_name)
+     {
+        auto id = req.url_params.get("id");
+        if (id == nullptr)
+            res.write("id not found!");
+        else
+        {
+            std::string file_path = std::string("./workplace/") + std::string(id) + "_source.jpg";
+
+            // TODO: add code here!
+
+            res.set_static_file_info_unsafe(file_path);
+        }
+        res.end(); });
+
+    CROW_ROUTE(app, "/filters/sketch/<string>")
+    ([](const crow::request &req, crow::response &res, const std::string &filter_name)
+     {
+        auto id = req.url_params.get("id");
+        if (id == nullptr)
+            res.write("id not found!");
+        else
+        {
+            std::string file_path = std::string("./workplace/") + std::string(id) + "_source.jpg";
+
+            auto img = cv::imread(file_path);
+            snapp::filters::color::Sketch::get_filter().apply(img,(void*)std::atoi(filter_name.c_str()));
+            cv::imwrite(file_path, img);
+
+            res.set_static_file_info_unsafe(file_path);
+        }
+        res.end(); });
+
+    CROW_ROUTE(app, "/filters/mix")
+    ([](const crow::request &req, crow::response &res)
+     {
+        auto id = req.url_params.get("id");
+        if (id == nullptr)
+            res.write("id not found!");
+        else
+        {
+            std::string file_path = std::string("./workplace/") + std::string(id) + "_source.jpg";
+
+            // TODO: add code here!
+
+            res.set_static_file_info_unsafe(file_path);
+        }
+        res.end(); });
+
+    app.port(18080).multithreaded().run();
     return 0;
 }

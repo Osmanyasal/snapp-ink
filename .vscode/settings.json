@@ -69,6 +69,14 @@
         "iomanip": "cpp",
         "sstream": "cpp",
         "typeindex": "cpp",
-        "variant": "cpp"
+        "variant": "cpp",
+        "csignal": "cpp",
+        "any": "cpp",
+        "coroutine": "cpp",
+        "unordered_set": "cpp",
+        "regex": "cpp",
+        "source_location": "cpp",
+        "future": "cpp",
+        "__config": "cpp"
     }
 }

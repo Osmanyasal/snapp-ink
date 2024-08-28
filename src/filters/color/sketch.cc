@@ -1,7 +1,7 @@
 #include "sketch.hh"
 namespace snapp::filters::color
 {
-
+    const std::string Sketch::NAME = "sketch";
     BaseFilter &Sketch::get_filter()
     {
         static Sketch Sketch{};

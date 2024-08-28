@@ -7,6 +7,9 @@ namespace snapp::filters::ai
     class FaceSwap : public BaseFilter
     {
     public:
+        static const std::string NAME;
+
+    public:
         static BaseFilter &get_filter();
         virtual void apply(cv::Mat &img, void *user_data) const override;
 

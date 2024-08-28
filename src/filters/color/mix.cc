@@ -2,6 +2,8 @@
 
 namespace snapp::filters::color
 {
+    const std::string Mix::NAME = "mix";
+    
     BaseFilter &Mix::get_filter()
     {
         static Mix Mix{};

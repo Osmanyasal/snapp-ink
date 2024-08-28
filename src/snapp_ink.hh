@@ -1,6 +1,7 @@
 #pragma once
 
 #include <utility>
+#include <unordered_map>
 #include "filters/color/sketch.hh"
 #include "filters/color/grayscale.hh"
 #include "filters/color/sepia.hh"

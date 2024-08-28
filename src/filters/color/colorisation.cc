@@ -2,6 +2,8 @@
     
 namespace snapp::filters::color
 {
+    const std::string Colorisation::NAME = "colorisation";
+
     BaseFilter &Colorisation::get_filter()
     {
         static Colorisation Colorisation{};

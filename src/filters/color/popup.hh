@@ -6,20 +6,21 @@ namespace snapp::filters::color
 {
     class PopUp : public BaseFilter
     {
-    public:
-        static BaseFilter &get_filter();
-        virtual void apply(cv::Mat &img, void *user_data) const override;
+        public:
+            static const std::string NAME;
 
-        void NewFunction() const;
+        public:
+            static BaseFilter &get_filter();
+            virtual void apply(cv::Mat &img, void *user_data) const override;
 
-        // Delete copy, move constructor and assignment operator
-        PopUp(const PopUp &) = delete;
-        PopUp(PopUp &&) = delete;
-        PopUp &operator=(const PopUp &) = delete;
+            // Delete copy, move constructor and assignment operator
+            PopUp(const PopUp &) = delete;
+            PopUp(PopUp &&) = delete;
+            PopUp &operator=(const PopUp &) = delete;
 
-    private:
-        PopUp() { std::cout << "ctor PopUp()\n"; };
-        ~PopUp() = default;
+        private:
+            PopUp() { std::cout << "ctor PopUp()\n"; };
+            ~PopUp() = default;
     };
 
 } // namespace snapp::filters::color

@@ -2,6 +2,8 @@
     
 namespace snapp::filters::color
 {
+    const std::string RemBG::NAME = "removebg";
+    
     BaseFilter &RemBG::get_filter()
     {
         static RemBG RemBG{};
