@@ -77,6 +77,8 @@
         "regex": "cpp",
         "source_location": "cpp",
         "future": "cpp",
-        "__config": "cpp"
+        "__config": "cpp",
+        "shared_mutex": "cpp",
+        "cfenv": "cpp"
     }
 }
