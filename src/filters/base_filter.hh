@@ -5,6 +5,7 @@
 #include <omp.h>
 #include <opencv2/opencv.hpp>
 #include <cstdlib> // for std::system
+#include "utils.hh"
 namespace snapp::filters
 {
     class BaseFilter

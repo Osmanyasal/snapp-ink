@@ -31,7 +31,7 @@ workspace "HelloWorld"
         language "C++"
         targetdir "bin/%{cfg.buildcfg}"  
         location(buildDir)
-        includedirs {"/usr/include/opencv4", "./src/filters/", "./src/filters/color/", "./src/filters/ai/", "./lib/crow/include"}
+        includedirs {"/usr/include/opencv4","./src/", "./src/filters/", "./src/filters/color/", "./src/filters/ai/", "./lib/crow/include"}
         buildoptions { "-O2","-std=c++17", "-Wall", "-fopenmp", "-DCROW_ENABLE_SSL", "-DCROW_ENABLE_COMPRESSION"} 
         linkoptions { "-fopenmp"}
         linkoptions { "-lssl", "-lcrypto", "-lz" }

@@ -16,7 +16,7 @@ ifeq ($(config),debug)
   TARGET = $(TARGETDIR)/snapp_ink
   OBJDIR = obj/debug
   DEFINES += -DDEBUG
-  INCLUDES += -I/usr/include/opencv4 -I../../src/filters -I../../src/filters/color -I../../src/filters/ai -I../../lib/crow/include
+  INCLUDES += -I/usr/include/opencv4 -I../../src -I../../src/filters -I../../src/filters/color -I../../src/filters/ai -I../../lib/crow/include
   FORCE_INCLUDE +=
   ALL_CPPFLAGS += $(CPPFLAGS) -MD -MP $(DEFINES) $(INCLUDES)
   ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -g -O2 -std=c++17 -Wall -fopenmp -DCROW_ENABLE_SSL -DCROW_ENABLE_COMPRESSION
@@ -43,7 +43,7 @@ ifeq ($(config),release)
   TARGET = $(TARGETDIR)/snapp_ink
   OBJDIR = obj/release
   DEFINES += -DNDEBUG
-  INCLUDES += -I/usr/include/opencv4 -I../../src/filters -I../../src/filters/color -I../../src/filters/ai -I../../lib/crow/include
+  INCLUDES += -I/usr/include/opencv4 -I../../src -I../../src/filters -I../../src/filters/color -I../../src/filters/ai -I../../lib/crow/include
   FORCE_INCLUDE +=
   ALL_CPPFLAGS += $(CPPFLAGS) -MD -MP $(DEFINES) $(INCLUDES)
   ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -O2 -O2 -std=c++17 -Wall -fopenmp -DCROW_ENABLE_SSL -DCROW_ENABLE_COMPRESSION
