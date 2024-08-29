@@ -31,7 +31,7 @@ int main(int argc, char **argv)
         return crow::response(200); });
 
     CROW_ROUTE(app, "/register/target").methods(crow::HTTPMethod::POST)([](const crow::request &req)
-                                                                 { 
+                                                                        { 
         auto id = req.url_params.get("id");
         if (id == nullptr)
             return crow::response("id not found!");
@@ -149,11 +149,22 @@ int main(int argc, char **argv)
             res.write("id not found!");
         else
         {
-            std::string file_path = std::string("./workplace/") + std::string(id) + "_source.jpg";
+            std::string source_file_path = std::string("./workplace/") + std::string(id) + "_source.jpg";
+            std::string target_file_path = std::string("./workplace/") + std::string(id) + "_target.jpg";
+            std::string processed = target_file_path.substr(0, target_file_path.find_last_of('.'));
+            processed += "_processed" + target_file_path.substr(target_file_path.find_last_of('.'), target_file_path.size() - 1);
 
-            //TODO: add code here!
-           
-            res.set_static_file_info_unsafe(file_path);
+            std::cout << "processed->" << processed << "\n";
+
+            cv::Mat dummy;
+            std::string dummy_path = std::string("./workplace/") + std::string(id) + "_dummy.jpg";
+            std::pair<std::string, std::string> src_dst = {source_file_path, target_file_path};
+            snapp::filters::ai::FaceSwap::get_filter().apply(dummy, (void *)&src_dst);
+            std::string command = std::string{"mv "} + processed + " " + source_file_path;
+            std::system(command.c_str());
+            std::system((std::string{"rm "} + target_file_path + " " + processed).c_str());
+
+            res.set_static_file_info_unsafe(source_file_path);
         }
         res.end(); });
 
@@ -191,8 +202,8 @@ int main(int argc, char **argv)
         }
         res.end(); });
 
-    CROW_ROUTE(app, "/filters/mix")
-    ([](const crow::request &req, crow::response &res)
+    CROW_ROUTE(app, "/filters/vintage/<string>")
+    ([](const crow::request &req, crow::response &res, const std::string &filter_name)
      {
         auto id = req.url_params.get("id");
         if (id == nullptr)
