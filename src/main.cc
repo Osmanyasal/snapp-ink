@@ -285,9 +285,32 @@ int main(int argc, char **argv)
             {
                 std::string file_path = std::string("./workplace/") + std::string(id) + "_source.jpg";
 
-                // TODO: add code here!
+                auto img = cv::imread(file_path);
+                snapp::filters::color::Mix::get_filter().apply(img, (void*)(std::string{"./assets/old_filters/"} + filter_name + ".jpg").c_str());
+                cv::imwrite(file_path, img);
 
                 res.set_static_file_info_unsafe(file_path);
+            }
+            res.end();
+        }else
+         {
+            res.code = crow::UNAUTHORIZED;
+            res.end();
+        } });
+
+    CROW_ROUTE(app, "/terminate-session")
+    ([](const crow::request &req, crow::response &res)
+     {
+        SNAPP__IF_API_KEY_VALID(req)
+        {
+            auto id = req.url_params.get("id");
+            if (id == nullptr)
+                res.write("id not found!");
+            else
+            {
+                std::string command{"rm"};
+                command = command + " " + "./workplace/" + std::string{id} + "*";
+                std::system(command.c_str());
             }
             res.end();
         }else
