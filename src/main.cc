@@ -236,9 +236,18 @@ int main(int argc, char **argv)
             else
             {
                 std::string file_path = std::string("./workplace/") + std::string(id) + "_source.jpg";
+                std::string target_path = std::string("./workplace/") + std::string(id) + "_" + filter_name + ".jpg";
 
-                // TODO: add code here!
+                auto img = cv::imread(file_path);
+                snapp::filters::color::GrayScale::get_filter().apply(img);
+                cv::imwrite(file_path, img);
 
+                cv::Mat dummy;
+                std::pair<std::string, std::string> src_dst = {file_path, id};
+                snapp::filters::color::Colorisation::get_filter().apply(dummy, (void*)&src_dst);
+
+                std::system((std::string{"mv "} + target_path + " " + file_path).c_str());
+                std::system((std::string{"rm ./workplace/"} + id + "_cold.jpg" + " ./workplace/" + id + "_warm.jpg").c_str());
                 res.set_static_file_info_unsafe(file_path);
             }
             res.end();

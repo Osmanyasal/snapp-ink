@@ -30,8 +30,8 @@ img_bw = postprocess_tens(tens_l_orig, torch.cat((0*tens_l_orig,0*tens_l_orig),d
 out_img_eccv16 = postprocess_tens(tens_l_orig, colorizer_eccv16(tens_l_rs).cpu())
 out_img_siggraph17 = postprocess_tens(tens_l_orig, colorizer_siggraph17(tens_l_rs).cpu())
 
-plt.imsave('%s_eccv16.png'%opt.save_prefix, out_img_eccv16)
-plt.imsave('%s_siggraph17.png'%opt.save_prefix, out_img_siggraph17)
+plt.imsave('./workplace/%s_warm.jpg'%opt.save_prefix, out_img_eccv16) ## _eccv16.png
+plt.imsave('./workplace/%s_cold.jpg'%opt.save_prefix, out_img_siggraph17) ## _siggraph17.png
 
 # plt.figure(figsize=(12,8))
 # plt.subplot(2,2,1)
