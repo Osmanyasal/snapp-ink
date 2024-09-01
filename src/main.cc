@@ -329,27 +329,27 @@ int main(int argc, char **argv)
             res.end();
         } });
 
-    CROW_ROUTE(app, "/terminate-session")
-    ([&manager](const crow::request &req, crow::response &res)
-     {
-        SNAPP__IF_API_KEY_VALID(req)
-        {
-            auto id = req.url_params.get("id");
-            if (id == nullptr)
-                res.write("id not found!");
-            else
-            {
-                manager.update_session(id);
-                std::string command{"rm"};
-                command = command + " " + "./workplace/" + std::string{id} + "*";
-                std::system(command.c_str());
-            }
-            res.end();
-        }else
-         {
-            res.code = crow::UNAUTHORIZED;
-            res.end();
-        } });
+    // CROW_ROUTE(app, "/terminate-session")
+    // ([&manager](const crow::request &req, crow::response &res)
+    //  {
+    //     SNAPP__IF_API_KEY_VALID(req)
+    //     {
+    //         auto id = req.url_params.get("id");
+    //         if (id == nullptr)
+    //             res.write("id not found!");
+    //         else
+    //         {
+    //             manager.update_session(id);
+    //             std::string command{"rm"};
+    //             command = command + " " + "./workplace/" + std::string{id} + "*";
+    //             std::system(command.c_str());
+    //         }
+    //         res.end();
+    //     }else
+    //      {
+    //         res.code = crow::UNAUTHORIZED;
+    //         res.end();
+    //     } });
 
     app.port(18080).multithreaded().run();
     return 0;
