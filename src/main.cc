@@ -4,18 +4,21 @@
 #define CROW_DISABLE_STATIC_DIR
 #include "crow.h"
 #include "utils.hh"
+#include "session_manager.hh"
+
 
 int main(int argc, char **argv)
 {
 
-    std::cout << "generated--> " << generateGUID() << "\n";
     crow::SimpleApp app;
+
+    SessionManager manager;
 
     CROW_ROUTE(app, "/")
     ([]()
      { return "Snapp-ink[STATUS]: Is Running..."; });
 
-    CROW_ROUTE(app, "/register").methods(crow::HTTPMethod::POST)([](const crow::request &req)
+    CROW_ROUTE(app, "/register").methods(crow::HTTPMethod::POST)([&manager](const crow::request &req)
                                                                  { 
         
         SNAPP__IF_API_KEY_VALID(req)
@@ -23,6 +26,15 @@ int main(int argc, char **argv)
             auto id = req.url_params.get("id");
             if (id == nullptr)
                 return crow::response(crow::BAD_REQUEST,"id not found!");
+            manager.update_session(id);
+
+            // print req.headers
+            // Print request headers
+            std::cout << "Request Headers:" << std::endl;
+            for (const auto &header : req.headers)
+            {
+                std::cout << header.first << ": " << header.second << std::endl;
+            }
 
             std::string file_path = std::string("./workplace/") + std::string(id) + "_source.jpg";
 

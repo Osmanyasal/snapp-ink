@@ -4,7 +4,8 @@
 #include <string>
 #include <random>
 
-inline const std::string API_KEY = "33fd47a1c734b29b-40357b345194a388-74392945f67ff65f-ddef98f8bc8d3be0-14395836d484400a";
+//inline const std::string API_KEY = "33fd47a1c734b29b-40357b345194a388-74392945f67ff65f-ddef98f8bc8d3be0-14395836d484400a";
+inline const std::string API_KEY = "";
 
 #define SNAPP__IF_API_KEY_VALID(req) if (req.get_header_value("snapp-ink-api-key") == API_KEY)
 
