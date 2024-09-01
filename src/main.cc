@@ -48,13 +48,14 @@ int main(int argc, char **argv)
         }
         else return crow::response(crow::UNAUTHORIZED); });
 
-    CROW_ROUTE(app, "/register/target").methods(crow::HTTPMethod::POST)([](const crow::request &req)
+    CROW_ROUTE(app, "/register/target").methods(crow::HTTPMethod::POST)([&manager](const crow::request &req)
                                                                         {
         SNAPP__IF_API_KEY_VALID(req)
         {
             auto id = req.url_params.get("id");
             if (id == nullptr)
                 return crow::response(crow::BAD_REQUEST, "id not found!");
+            manager.update_session(id);
 
             std::string file_path = std::string("./workplace/") + std::string(id) + "_target.jpg";
 
@@ -70,7 +71,7 @@ int main(int argc, char **argv)
         else return crow::response(crow::UNAUTHORIZED); });
 
     CROW_ROUTE(app, "/filters/grayscale")
-    ([](const crow::request &req, crow::response &res)
+    ([&manager](const crow::request &req, crow::response &res)
      {
         SNAPP__IF_API_KEY_VALID(req)
         {
@@ -81,6 +82,7 @@ int main(int argc, char **argv)
             }
             else
             {
+                manager.update_session(id);
                 std::string file_path = std::string("./workplace/") + std::string(id) + "_source.jpg";
                 auto img = cv::imread(file_path);
                 snapp::filters::color::GrayScale::get_filter().apply(img);
@@ -95,7 +97,7 @@ int main(int argc, char **argv)
         } });
 
     CROW_ROUTE(app, "/filters/popup/<string>")
-    ([](const crow::request &req, crow::response &res, const std::string &filter_name)
+    ([&manager](const crow::request &req, crow::response &res, const std::string &filter_name)
      {
         SNAPP__IF_API_KEY_VALID(req)
         {
@@ -104,6 +106,7 @@ int main(int argc, char **argv)
                 res.write("id not found!");
             else
             {
+                manager.update_session(id);
                 std::string file_path = std::string("./workplace/") + std::string(id) + "_source.jpg";
 
                 auto img = cv::imread(file_path);
@@ -120,7 +123,7 @@ int main(int argc, char **argv)
         } });
 
     CROW_ROUTE(app, "/filters/rembg")
-    ([](const crow::request &req, crow::response &res)
+    ([&manager](const crow::request &req, crow::response &res)
      {
         SNAPP__IF_API_KEY_VALID(req)
         {
@@ -129,6 +132,7 @@ int main(int argc, char **argv)
                 res.write("id not found!");
             else
             {
+                manager.update_session(id);
                 std::string file_path = std::string("./workplace/") + std::string(id) + "_source.jpg";
 
                 cv::Mat dummy;
@@ -148,7 +152,7 @@ int main(int argc, char **argv)
         } });
 
     CROW_ROUTE(app, "/filters/face-autmentation")
-    ([](const crow::request &req, crow::response &res)
+    ([&manager](const crow::request &req, crow::response &res)
      {
         SNAPP__IF_API_KEY_VALID(req)
         {
@@ -158,6 +162,7 @@ int main(int argc, char **argv)
                 res.write("id not found!");
             else
             {
+                manager.update_session(id);
                 std::string file_path = std::string("./workplace/") + std::string(id) + "_source.jpg";
 
                 cv::Mat dummy;
@@ -177,7 +182,7 @@ int main(int argc, char **argv)
         } });
 
     CROW_ROUTE(app, "/filters/sepia")
-    ([](const crow::request &req, crow::response &res)
+    ([&manager](const crow::request &req, crow::response &res)
      {
         SNAPP__IF_API_KEY_VALID(req)
         {
@@ -187,6 +192,7 @@ int main(int argc, char **argv)
                 res.write("id not found!");
             else
             {
+                manager.update_session(id);
                 std::string file_path = std::string("./workplace/") + std::string(id) + "_source.jpg";
 
                 auto img = cv::imread(file_path);
@@ -203,7 +209,7 @@ int main(int argc, char **argv)
         } });
 
     CROW_ROUTE(app, "/filters/face-swap")
-    ([](const crow::request &req, crow::response &res)
+    ([&manager](const crow::request &req, crow::response &res)
      {
         SNAPP__IF_API_KEY_VALID(req)
         {
@@ -213,6 +219,7 @@ int main(int argc, char **argv)
                 res.write("id not found!");
             else
             {
+                manager.update_session(id);
                 std::string source_file_path = std::string("./workplace/") + std::string(id) + "_source.jpg";
                 std::string target_file_path = std::string("./workplace/") + std::string(id) + "_target.jpg";
                 std::string processed = target_file_path.substr(0, target_file_path.find_last_of('.'));
@@ -238,7 +245,7 @@ int main(int argc, char **argv)
         } });
 
     CROW_ROUTE(app, "/filters/colorisation/<string>")
-    ([](const crow::request &req, crow::response &res, const std::string &filter_name)
+    ([&manager](const crow::request &req, crow::response &res, const std::string &filter_name)
      {
         SNAPP__IF_API_KEY_VALID(req)
         {
@@ -247,6 +254,7 @@ int main(int argc, char **argv)
                 res.write("id not found!");
             else
             {
+                manager.update_session(id);
                 std::string file_path = std::string("./workplace/") + std::string(id) + "_source.jpg";
                 std::string target_path = std::string("./workplace/") + std::string(id) + "_" + filter_name + ".jpg";
 
@@ -270,7 +278,7 @@ int main(int argc, char **argv)
         } });
 
     CROW_ROUTE(app, "/filters/sketch/<string>")
-    ([](const crow::request &req, crow::response &res, const std::string &filter_name)
+    ([&manager](const crow::request &req, crow::response &res, const std::string &filter_name)
      {
         SNAPP__IF_API_KEY_VALID(req)
         {
@@ -279,6 +287,7 @@ int main(int argc, char **argv)
                 res.write("id not found!");
             else
             {
+                manager.update_session(id);
                 std::string file_path = std::string("./workplace/") + std::string(id) + "_source.jpg";
 
                 auto img = cv::imread(file_path);
@@ -295,7 +304,7 @@ int main(int argc, char **argv)
         } });
 
     CROW_ROUTE(app, "/filters/vintage/<string>")
-    ([](const crow::request &req, crow::response &res, const std::string &filter_name)
+    ([&manager](const crow::request &req, crow::response &res, const std::string &filter_name)
      {
         SNAPP__IF_API_KEY_VALID(req)
         {
@@ -304,6 +313,7 @@ int main(int argc, char **argv)
                 res.write("id not found!");
             else
             {
+                manager.update_session(id);
                 std::string file_path = std::string("./workplace/") + std::string(id) + "_source.jpg";
 
                 auto img = cv::imread(file_path);
@@ -320,7 +330,7 @@ int main(int argc, char **argv)
         } });
 
     CROW_ROUTE(app, "/terminate-session")
-    ([](const crow::request &req, crow::response &res)
+    ([&manager](const crow::request &req, crow::response &res)
      {
         SNAPP__IF_API_KEY_VALID(req)
         {
@@ -329,6 +339,7 @@ int main(int argc, char **argv)
                 res.write("id not found!");
             else
             {
+                manager.update_session(id);
                 std::string command{"rm"};
                 command = command + " " + "./workplace/" + std::string{id} + "*";
                 std::system(command.c_str());
