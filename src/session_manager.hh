@@ -44,13 +44,13 @@ void SessionManager::monitor_sessions()
     {
         std::cout << "executing background job!!\n";
         
-        std::this_thread::sleep_for(std::chrono::seconds(10)); // Check every minute
+        std::this_thread::sleep_for(std::chrono::minutes(1)); // Check every minute
         auto now = std::chrono::steady_clock::now();
 
         std::lock_guard<std::mutex> lock(session_mutex);
         for (auto it = session_durations.begin(); it != session_durations.end();)
         {
-            if (std::chrono::duration_cast<std::chrono::seconds>(now - it->second).count() >= 10)
+            if (std::chrono::duration_cast<std::chrono::minutes>(now - it->second).count() >= 5)    // above 5 minutes!
             { 
                 std::system((std::string{"rm ./workplace/"} + it->first + "*").c_str());
                 it = session_durations.erase(it); 
