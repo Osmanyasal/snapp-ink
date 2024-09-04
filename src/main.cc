@@ -397,7 +397,7 @@ int main(int argc, char **argv)
             res.end();
         } });
 
-    CROW_ROUTE(app, "/filters/original")
+    CROW_ROUTE(app, "/filters/normal")
     ([&manager](const crow::request &req, crow::response &res)
      {
         SNAPP__IF_API_KEY_VALID(req)
