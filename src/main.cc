@@ -8,11 +8,10 @@
 
 int main(int argc, char **argv)
 {
-
     crow::SimpleApp app;
 
     SessionManager manager;
-
+ 
     CROW_ROUTE(app, "/")
     ([]()
      { return "Snapp-ink[STATUS]: Is Running..."; });
