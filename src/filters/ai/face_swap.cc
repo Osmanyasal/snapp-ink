@@ -15,11 +15,13 @@ namespace snapp::filters::ai
 
         std::pair<std::string, std::string> *src_dst = (std::pair<std::string, std::string> *)user_data;
 
-        std::string target{src_dst->second.substr(0, src_dst->second.find_last_of('.'))};
-        target += "_processed" + src_dst->second.substr(src_dst->second.find_last_of('.'));
+        std::string target{src_dst->first.substr(0, src_dst->first.find_last_of('.'))};
+        target += "_processed" + src_dst->first.substr(src_dst->first.find_last_of('.'));
 
         command += " -s " + src_dst->first + " -t " + src_dst->second + " -o " + target + " --frame-processor face_swapper";
+        // command = "pwd;" + command;
 
+        // std::cout << "command --> " << command << "\n";
         auto result = std::system(command.c_str());
         if (result == 0)
             std::cout << "Python script executed successfully.\n";
