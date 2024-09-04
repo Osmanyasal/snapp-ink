@@ -6,7 +6,6 @@
 #include "utils.hh"
 #include "session_manager.hh"
 
-
 int main(int argc, char **argv)
 {
 
@@ -353,8 +352,19 @@ int main(int argc, char **argv)
                 manager.update_session(id);
                 std::string file_path = std::string("./workplace/") + std::string(id) + "_source.jpg";
 
-                if(filter_name == "custom")
+                if(filter_name == "augment")
                 {
+                    std::string target_path = std::string("./workplace/") + std::string(id) + "_target_processed.jpg";
+                    std::pair<std::string, std::string> src_dst = {file_path, target_path};
+                    cv::Mat mat{};
+                    snapp::filters::ai::FaceAugmentation::get_filter().apply(mat, (void*)&src_dst);
+
+                    std::string command = std::string{"mv "} + target_path + " " + file_path;
+                    std::system(command.c_str());
+                }
+                else if(filter_name == "custom")
+                {
+                    std::cout << "is custom!\n";
                     std::string target_path = std::string("./workplace/") + std::string(id) + "_target.jpg";
                     std::pair<std::string, std::string> src_dst = {file_path, target_path};
                     cv::Mat mat{};
@@ -364,7 +374,8 @@ int main(int argc, char **argv)
                     target += "_processed" + src_dst.first.substr(src_dst.first.find_last_of('.'));
                     std::string command = std::string{"mv "} + target + " " + file_path + "; rm " + target_path;
                     std::system(command.c_str());
-                }else{
+                }
+                else{
 
                     std::string target_path = std::string("./assets/face-swap-filters/") + filter_name + ".png";
                     std::pair<std::string, std::string> src_dst = {file_path, target_path};
@@ -386,7 +397,7 @@ int main(int argc, char **argv)
             res.end();
         } });
 
-    CROW_ROUTE(app, "/filters/previous")
+    CROW_ROUTE(app, "/filters/original")
     ([&manager](const crow::request &req, crow::response &res)
      {
         SNAPP__IF_API_KEY_VALID(req)
