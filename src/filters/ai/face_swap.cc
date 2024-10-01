@@ -18,7 +18,7 @@ namespace snapp::filters::ai
         std::string target{src_dst->first.substr(0, src_dst->first.find_last_of('.'))};
         target += "_processed" + src_dst->first.substr(src_dst->first.find_last_of('.'));
 
-        command += " -s " + src_dst->first + " -t " + src_dst->second + " -o " + target + " --frame-processor face_swapper";
+        command += " -s " + src_dst->first + " -t " + src_dst->second + " -o " + target + " --frame-processor face_swapper face_enhancer";
         // command = "pwd;" + command;
 
         // std::cout << "command --> " << command << "\n";

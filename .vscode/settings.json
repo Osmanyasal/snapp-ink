@@ -80,5 +80,6 @@
         "__config": "cpp",
         "shared_mutex": "cpp",
         "cfenv": "cpp"
-    }
+    },
+    "cmake.sourceDirectory": "/home/rt7/Desktop/snapp-ink/lib/crow"
 }

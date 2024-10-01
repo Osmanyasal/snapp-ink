@@ -211,45 +211,7 @@ int main(int argc, char **argv)
             res.code = crow::UNAUTHORIZED;
             res.end();
         } });
-
-    // CROW_ROUTE(app, "/filters/face-swap")
-    // ([&manager](const crow::request &req, crow::response &res)
-    //  {
-    //     SNAPP__IF_API_KEY_VALID(req)
-    //     {
-
-    //         auto id = req.url_params.get("id");
-    //         if (id == nullptr)
-    //             res.write("id not found!");
-    //         else
-    //         {
-    //             manager.update_session(id);
-    //             std::string source_file_path = std::string("./workplace/") + std::string(id) + "_source.jpg";
-    //             std::string target_file_path = std::string("./workplace/") + std::string(id) + "_target.jpg";
-    //             std::system((std::string{"cp "} + source_file_path + " " + std::string("./workplace/") + std::string(id) + "_previous.jpg").c_str());
-
-    //             std::string processed = target_file_path.substr(0, target_file_path.find_last_of('.'));
-    //             processed += "_processed" + target_file_path.substr(target_file_path.find_last_of('.'), target_file_path.size() - 1);
-
-    //             std::cout << "processed->" << processed << "\n";
-
-    //             cv::Mat dummy;
-    //             std::string dummy_path = std::string("./workplace/") + std::string(id) + "_dummy.jpg";
-    //             std::pair<std::string, std::string> src_dst = {source_file_path, target_file_path};
-    //             snapp::filters::ai::FaceSwap::get_filter().apply(dummy, (void *)&src_dst);
-    //             std::string command = std::string{"mv "} + processed + " " + source_file_path;
-    //             std::system(command.c_str());
-    //             std::system((std::string{"rm "} + target_file_path + " " + processed).c_str());
-
-    //             res.set_static_file_info_unsafe(source_file_path);
-    //         }
-    //         res.end();
-    //     }
-    //     else  {
-    //         res.code = crow::UNAUTHORIZED;
-    //         res.end();
-    //     } });
-
+ 
     CROW_ROUTE(app, "/filters/colorisation/<string>")
     ([&manager](const crow::request &req, crow::response &res, const std::string &filter_name)
      {
@@ -351,7 +313,7 @@ int main(int argc, char **argv)
                 manager.update_session(id);
                 std::string file_path = std::string("./workplace/") + std::string(id) + "_source.jpg";
 
-                if(filter_name == "augment")
+                if(filter_name == "enhanced")
                 {
                     std::string target_path = std::string("./workplace/") + std::string(id) + "_target_processed.jpg";
                     std::pair<std::string, std::string> src_dst = {file_path, target_path};
